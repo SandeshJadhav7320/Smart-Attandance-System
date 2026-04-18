@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 class Year(db.Model):
     __tablename__ = 'years'
@@ -61,3 +62,19 @@ class Timetable(db.Model):
 
     def __repr__(self):
         return f"<Session {self.session_number}>"
+
+class AttendanceSession(db.Model):
+    __tablename__ = 'attendance_sessions'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    date = db.Column(db.Date)
+
+    session_number = db.Column(db.Integer)
+
+    first_seen = db.Column(db.DateTime)
+    last_seen = db.Column(db.DateTime)
+
+    duration_minutes = db.Column(db.Float)
+    status = db.Column(db.String(20))

@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from app import db
 from app.models import Year, Section, Student, Timetable, Room
+from app.session_manager import SessionManager
+from app.attendance_engine import AttendanceEngine
+
 main = Blueprint('main', __name__)
 
 # 🏠 HOME PAGE
@@ -152,3 +155,35 @@ def delete_timetable(id):
     db.session.commit()
 
     return redirect(url_for("main.timetable"))
+
+@main.route("/current_session")
+def current_session():
+    sm = SessionManager()
+    session = sm.get_current_session()
+
+    if session:
+        return f"""
+        Session: {session.session_number} <br>
+        Year: {session.year_id} <br>
+        Section: {session.section_id} <br>
+        Room: {session.room_id} <br>
+        Subject: {session.subject_name}
+        """
+    else:
+        return "No active session"
+
+@main.route("/test_attendance")
+def test_attendance():
+    ae = AttendanceEngine()
+
+    # test with student ID 1, session 1
+    ae.mark_presence(student_id=1, session_number=1)
+
+    return "Attendance updated"
+
+@main.route("/calculate_attendance")
+def calculate_attendance():
+    ae = AttendanceEngine()
+    ae.calculate_attendance()
+
+    return "Attendance Calculated"
