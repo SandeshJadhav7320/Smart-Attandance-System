@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Add Year</h2>
+    <form action="/add_year" method="POST">
+        <input type="number" name="year_number" required>
+        <button>Add</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Add Section</h2>
+    <form action="/add_section" method="POST">
+        <input type="text" name="section_name" required>
+
+        <select name="year_id">
+            {% for year in years %}
+            <option value="{{ year.id }}">Year {{ year.year_number }}</option>
+            {% endfor %}
+        </select>
+
+        <button>Add</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Years</h2>
+    <ul>
+        {% for year in years %}
+        <li>Year {{ year.year_number }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h2>Sections</h2>
+    <ul>
+        {% for section in sections %}
+        <li>{{ section.section_name }} (Year {{ section.year_id }})</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

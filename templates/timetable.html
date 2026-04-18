@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Add Timetable</h2>
+
+    <form action="/add_timetable" method="POST">
+
+        <select name="year_id">
+            {% for year in years %}
+            <option value="{{ year.id }}">Year {{ year.year_number }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="section_id">
+            {% for section in sections %}
+            <option value="{{ section.id }}">
+                {{ section.section_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="session_number" placeholder="Session" required>
+
+        <input type="text" name="start_time" placeholder="Start (9:00)" required>
+        <input type="text" name="end_time" placeholder="End (11:00)" required>
+
+        <input type="text" name="subject_name" placeholder="Subject" required>
+
+        <select name="room_id">
+            {% for room in rooms %}
+            <option value="{{ room.id }}">
+                {{ room.room_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <button>Add</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Timetable</h2>
+
+    <ul>
+        {% for t in timetable %}
+        <li>
+            Session {{ t.session_number }} |
+            Year {{ t.year_id }} |
+            Section {{ t.section_id }} |
+            {{ t.start_time }} - {{ t.end_time }} |
+            {{ t.subject_name }} |
+            Room {{ t.room_id }}
+
+            <a href="/delete_timetable/{{ t.id }}">❌</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

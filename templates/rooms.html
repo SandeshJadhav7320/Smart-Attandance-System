@@ -1,0 +1,33 @@
+{% extends "home.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Add Room</h2>
+
+    <form action="/add_room" method="POST">
+        <input type="text" name="room_name" placeholder="Room Name" required>
+
+        <select name="room_type">
+            <option value="Classroom">Classroom</option>
+            <option value="Lab">Lab</option>
+        </select>
+
+        <button>Add Room</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Room List</h2>
+
+    <ul>
+        {% for room in rooms %}
+        <li>
+            {{ room.room_name }} ({{ room.room_type }})
+            <a href="/delete_room/{{ room.id }}">❌</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
