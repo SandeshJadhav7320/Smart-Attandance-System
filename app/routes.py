@@ -3,6 +3,8 @@ from app import db
 from app.models import Year, Section, Student, Timetable, Room
 from app.session_manager import SessionManager
 from app.attendance_engine import AttendanceEngine
+from app.face_capture import capture_face
+
 
 main = Blueprint('main', __name__)
 
@@ -187,3 +189,8 @@ def calculate_attendance():
     ae.calculate_attendance()
 
     return "Attendance Calculated"
+
+@main.route("/capture_face/<int:student_id>")
+def capture(student_id):
+    capture_face(student_id)
+    return f"Face captured for student {student_id}"
